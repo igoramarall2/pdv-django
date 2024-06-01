@@ -1,0 +1,40 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load static %}
+
+<script src="{% static 'js/estoque/estoque.js' %}"></script>
+    <div class="card">
+        <div class="card-body">
+            <h1><i class="nav-icon fas fa-box"></i>&nbsp;Estoque</h1>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">            
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <table id="tabelaEstoque" class="table table-striped">
+                        {% csrf_token %}
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>   
+                                <th>Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in estoque %}
+                            <tr>
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.estoque_qntd }}</td>
+                                <td>{{ item.preco }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        
+{% endblock content %}

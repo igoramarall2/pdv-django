@@ -1,0 +1,130 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content%}
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}?version=1" />
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="clientSelect" class="form-label"
+          >Selecione um cliente:</label
+        >
+      <select class="form-select" id="clientSelect" name="client">
+          <option value="">Selecione um Cliente</option>
+          {% for client_id, client_name in clients %}
+              <option value="{{ client_id }}">{{ client_name }}</option>
+          {% endfor %}
+      </select>
+      </div>
+    </form>
+    <!-- Filter Form -->
+    <form id="filterForm">
+      <div class="row mb-3">
+        <div class="col">
+          <p>Busca por Codigo</p>
+          <input
+            type="text"
+            class="form-control"
+            id="filterCodprod"
+            placeholder="Codprod"
+          />
+        </div>
+        <div class="col">
+          <p>Busca por Nome</p>
+          <input
+            type="text"
+            class="form-control"
+            id="filterNameprod"
+            placeholder="Nameprod"
+          />
+        </div>
+        <!-- Add more input fields for other attributes if needed -->
+      </div>
+    </form>
+
+    <h2>Produtos em Estoque</h2>
+    <div class="scrollable-table tabela-items">
+      <table class="table table-striped" id="productTable">
+        <thead class="table-header">
+          <tr>
+            <th>Incluir no Pedido</th>
+            <th>Id</th>
+            <th>Codigo do Produto</th>
+            <th>Nome do Produto</th>
+            <th>Estoque</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr data-id="{{ product.id }}">
+            <td>
+              <input
+                type="checkbox"
+                class="selectCheckbox"
+                value="{{ product.id }}"
+              />
+            </td>
+            <td>{{ product.id }}</td>
+            <td>{{ product.codprod }}</td>
+            <td>{{ product.nameprod }}</td>
+            <td>{{ product.avprod }}</td>
+            <td>{{ product.priceprod }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Selected Products Table -->
+    <h2>Produtos Selecionados</h2>
+    <div class="scrollable-table">
+      <table
+        class="table selected-products-table table-striped"
+        id="selectedProductsTable"
+      >
+        <thead>
+          <tr>
+            <th>Remover do Pedido</th>
+            <th>Id</th>
+            <th>Codigo do Produto</th>
+            <th>Nome do Produto</th>
+            <th>Estoque</th>
+            <th>Quantidade</th>
+            <th>Valor do Produto</th>
+          </tr>
+        </thead>
+        <tbody id="selectedProductsTableBody">
+          <!-- Selected products will be added dynamically here -->
+        </tbody>
+        <tfoot>
+          <tr class="bg-secondary"id="totalRow">
+            <td colspan="6">
+              <strong>Total da Compra:</strong>
+            </td>
+            <td id="totalPrice">
+              <strong>0.00</strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div id="selectedProducts">
+      {% csrf_token %}
+      <!-- Your selected products table and other content here -->
+      <button id="queryProductsBtn" class="btn btn-primary">
+        Salvar Pedido
+      </button>
+    </div>
+
+    {% comment %} <script src="{% static 'js/orders/filtro.js' %}" defer></script>
+    <script src="{% static 'js/orders/order.js' %}" defer></script>
+    <script src="{% static 'js/orders/produtos_selec.js' %}" defer></script>
+    <script src="{% static 'js/orders/busca_clientes.js'%}"></script> {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+{% endblock content %}

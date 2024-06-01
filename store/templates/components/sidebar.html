@@ -1,0 +1,105 @@
+{% load static  %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4 position-fixed ">
+  <!-- Brand Logo -->
+  <a href="/" class="brand-link">
+    <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">AdminLTE 3</span>
+  </a>
+
+  {% if request.user.is_authenticated %}
+  <!-- Sidebar -->
+  <div class="sidebar"style="height: auto;">
+    <!-- Sidebar user panel (optional) -->
+      <div class="info mt-2 mb-2">
+        <h1 class="display-6 text-light">Bem vindo, {{user.get_username}}</h1>
+      </div>
+    </div>
+
+<!-- Sidebar Menu -->
+  <div class="sidebar">
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <a href="#" class="nav-link active">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Cadastros
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'nova_categoria' %}" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Cadastro de Categorias</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'novos_items' %}" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Cadastro de Produtos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'clients' %}" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Cadastro de Clientes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'orders' %}" class="nav-link active">
+                <i class="fas fa-clipboard nav-icon"></i>
+                <p>Cadastro de Vendas</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!--           <a href="{% url 'clients' %}" class="nav-link active"> -->
+    <!--             <i class="nav-icon fas fa-users"></i> -->
+    <!--             <p>Cadastro de Clientes</p> -->
+    <!--           </a> -->
+    <!--         </li> -->
+    <!--         <li class="nav-item"> -->
+    <!--           <a href="{% url 'orders' %}" class="nav-link active"> -->
+    <!--             <i class="nav-icon fas fa-clipboard"></i> -->
+    <!--             <p>Cadastro de Pedidos</p> -->
+    <!--           </a> -->
+    <!--         </li> -->
+    <!--       </ul> -->
+    <!--     </li> -->
+    <!---->
+    <!--     <li class="nav-item"> -->
+    <!--       <a href="{% url 'produtos_cadastrados' %}" class="nav-link active"> -->
+    <!--         <i class="nav-icon fas fa-search"></i> -->
+    <!--         <p>Consulta de Produtos</p> -->
+    <!--       </a> -->
+    <!--     </li>  -->
+    <!---->
+    <!--     <li class="nav-item"> -->
+    <!--       <a href="{% url 'consultar_pedidos' %}" class="nav-link active"> -->
+    <!--         <i class="nav-icon fas fa-search"></i> -->
+    <!--         <p>Consulta de Pedidos</p> -->
+    <!--       </a> -->
+    <!--     </li> -->
+    <!--   </ul> -->
+    <!-- {% endif %} -->
+    <!-- </nav> -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+              {% comment %} <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link active" href="{% url 'nova_categoria' %}">Cadastro de Categoria</a>
+                <a class="nav-link active" href="{% url 'novos_items' %}">Cadastro de Items</a>
+                <a class="nav-link active" href="{% url 'clients' %}">Cadastro de Clientes</a>
+                <a class="nav-link active" href="{% url 'orders' %}">Cadastro de Pedidos</a>
+                <a class="nav-link active" href="{% url 'consultar_pedidos' %}">Consulta de Pedidos</a>
+              </li> {% endcomment %}

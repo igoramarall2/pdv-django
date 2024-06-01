@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{%block title%}{{title}}{%endblock%} 
+  {% block content %}
+  <h1>{{title}}</h1>
+  <form action="." method="post">
+    {% csrf_token %}
+
+    <div>{{ form.as_p }}</div>
+
+    {% if form.errors or form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      <strong>Erro!</strong> Por favor, corrija os erros abaixo.
+      <ul>
+        {% for error in form.errors %}
+        <li>{{ error }}</li>
+        {% endfor %} {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary btn-lg">{{ button_text }}</button>
+  </form>  
+   
+{% endblock content %}

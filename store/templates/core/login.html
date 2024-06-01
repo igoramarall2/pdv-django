@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{%block title%}{{title}}{%endblock%} 
+
+{% block content %}
+<h1>{{title}}</h1>
+
+<form method="post" action=".">
+    {% csrf_token %}
+    <div>
+        <label for="id_username">Username:</label>
+        {{form.username}}
+    </div>
+    <div>
+        <label for="id_password">Password:</label>
+        {{form.password}}
+   </div>
+
+   
+   {% if form.errors or form.non_field_erros %}
+    <div class="mt-5 p-6">
+        <div class="alert alert-danger">
+            <strong>ERRO</strong> verifique suas credenciais.
+            <ul>
+                {% for error in form.errors %}
+                    <li>{{error}}</li>
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{error}}</li>
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+   {% endif %}
+    
+   
+    <button class="btn btn-primary mt-4" type="submit">Login</button>
+</form>
+    
+{% endblock content %}
+    

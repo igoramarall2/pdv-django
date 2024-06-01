@@ -1,0 +1,63 @@
+.scrollable-table {
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;
+    position: relative;
+}
+
+.tabela-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.table-header {
+    position: sticky;
+    top: 0;
+    padding: 10px 0 10px 0;
+    z-index: 1; /* Ensure the header remains above the table body */
+}
+.table-header tr th {
+    color: white;
+    background-color: rgb(65, 65, 65); /* Ensure the header remains visible */
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+}
+.tabela-items tr td {
+
+    text-align: center;
+}
+
+/* Apply styles to the selected products table */
+.selected-products-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Apply styles to the selected products table header */
+.selected-products-table thead {
+    position: sticky;
+    top: 0;
+    padding: 10px 0 10px 0;
+    z-index: 1; /* Ensure the header remains above the table body */
+    background-color: rgb(65, 65, 65); /* Background color */
+}
+.selected-products-table tr th{
+    background-color: rgb(65, 65, 65); /* Ensure the header remains visible */
+    font-size: 1.2em; /* Font size */
+    font-weight: bold; /* Font weight */
+}
+.selected-products-table th {
+    color: rgb(243, 243, 243); /* Text color */
+    font-size: 1.2em; /* Font size */
+    font-weight: bold; /* Font weight */
+}
+.selected-products-table th, .selected-products-table td {
+    padding: 10px; /* Padding */
+    vertical-align: middle;
+    text-align: center;
+}
+#selectedProducts{
+    margin-top: 1.2em;
+    padding-bottom: 1.2em;
+}

@@ -1,0 +1,43 @@
+{% load adminlte_helpers %}
+{%load static %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-dark-primary  elevation-4">
+     <!-- Brand Logo -->
+    {% block logo %}
+        <a href="/" class="brand-link">
+            <img src="{%static 'admin-lte/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            {% block logo_text %}<span class="brand-text font-weight-light">AdminLTE 3 </span>{% endblock %}
+        </a>
+    {% endblock %}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        {% block nav_links_ul %}
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            {% block nav_links %}
+            <li class="nav-item">
+                <a href="{% url 'cadastros' %}" class="nav-link">
+                    <i class="nav-icon fas fa-solid fa-barcode"></i>
+                    <p>Cadastros</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'estoque' %}" class="nav-link">
+                    <i class="nav-icon fas fa-box"></i>
+                    <p>Estoque</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'pdv' %}" class="nav-link">
+                    <i class="nav-icon fas fa-solid fa-cash-register"></i>
+                    <p>PDV</p>
+                </a>
+            </li>
+            {% endblock nav_links %}
+            </ul>
+            </nav>
+        {% endblock nav_links_ul %}
+    </div>
+    <!-- /.sidebar -->
+</aside>

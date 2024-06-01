@@ -1,0 +1,71 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load static %}
+<script src="{% static 'js/pdv/pdv.js' %}"></script>
+<div class="card">
+    <div class="card-body">
+        <h1><i class="nav-icon fas fa-solid fa-cash-register"></i>&nbsp;Ponto de Venda</h1>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3>Buscar produto</h3>
+        <form id="buscarProdutoForm" class="col-12">
+        {% csrf_token %}
+            <div class="row d-flex justify-content-center mt-4">
+                <div class="col-md-5">
+                    <input id="buscaProdutoNome" name ="buscaProdutoNome" type="text" class="form-control" placeholder="Nome">
+                </div>
+                <div class="col-md-5">
+                    <input id="buscaProdutoCategoria" name ="buscaProdutoCategoria" type="text" class="form-control" placeholder="Categoria">
+                </div>
+                <div class="col-md-auto">
+                    <button type="button" id="btnBuscarProdutoBtn" name ="btnBuscarProdutoBtn" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div id="produtosBuscadosResult" class="p-2">
+            {% include 'store/pdv/produtos_buscados.html' %}
+        </div>
+    </div>
+</div>
+
+{% csrf_token %}
+<div class="card">
+    <div class="card-body">
+        <h3>Carrinho</h3>
+        <table id="carrinhoTabela" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-left">Nome</th>
+                    <th scope="col" class="text-left">Preço</th>
+                    <th scope="col" class="text-left">Quantidade</th>
+                    <th scope="col" class="text-left">Remover</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <h4>Total: R$ <span id="totalCarrinho">0.00</span></h4>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-end mt-5">
+            <div class="col-md-auto">
+                <button id="finalizarCompraBtn" class="btn btn-primary">Finalizar Compra</button>
+            </div>
+            <div class="col-md-auto">
+                <button id="cancelarCompraBtn" class="btn btn-danger">Cancelar Compra</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

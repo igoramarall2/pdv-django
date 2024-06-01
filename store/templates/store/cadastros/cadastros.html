@@ -1,0 +1,122 @@
+{% extends "store/base.html" %}
+{% block content %}
+{% load static %}
+
+<script src="{% static 'js/cadastros/cadastros.js' %}"></script>
+<div class="card">
+    <div class="card-body">
+        <h1 class="h1 m-0"><i class="nav-icon fas fa-solid fa-barcode"></i>&nbsp;Cadastros</h1>
+    </div>
+</div>
+<div class="card text-center">
+    <div class="card-header">
+        <ul id="custom-tabs-one-tab" class="nav nav-pills">
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-cliente-tab" class="nav-link active" data-toggle="pill" href="#custom-tabs-one-cliente">Cliente</a>
+            </li>
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-categorias-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-categorias">Categorias</a>
+            </li>
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-produtos-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-produtos">Produtos</a>
+            </li>
+
+        </ul>
+        <div class="card-body">
+            
+            <div id="custom-tabs-one-tabContent" class="tab-content">
+                <div id="custom-tabs-one-cliente" class="tab-pane fade active show" role="tabpanel" aria-labelledby="custom-tabs-one-cliente-tab">
+                    <form id="clienteForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-6 p-2">
+                                    <input name='nomeCli' type="text" class="form-control p-3" placeholder="Nome do Cliente">
+                                </div>
+                                
+                                <div class="col-md-6 p-2">
+                                    <input name='cpfCli' type="text" class="form-control p-3" placeholder="CPF">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">                                
+                                <div class="col-md-6 p-2">
+                                    <input name='telefoneCli' type="text" class="form-control p-3" placeholder="Telefone">
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <input name='enderecoCli' type="text" class="form-control p-3" placeholder="Endereço">
+                                </div>
+                            </div>                            
+                            <div class="row justify-content-md-center">                                 
+                                <div class="col-md-6 p-2">                                    
+                                    <input name='cidadeCli' type="text" class="form-control p-3" placeholder="Cidade">
+                                </div>
+
+                                <div class="col-md-6 p-2">
+                                    <input name='estadoCli' type="text" class="form-control p-3" placeholder="Estado">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">                                
+                                <div class="col-md-6 p-2">
+                                    <input name='cepCli' type="text" class="form-control p-3" placeholder="CEP">
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <input name='emailCli' type="text" class="form-control p-3" placeholder="E-mail">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <button id='cadastroClientes' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                <div id="custom-tabs-one-categorias" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-categorias-tab">
+                    <form id="categoriaForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-6 p-2">
+                                    <input id="nomeCat" name='nomeCat' type="text" class="form-control" placeholder="Categoria">
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <input id="desCat" name='desCat' type="text" class="form-control" placeholder="Descricao">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <button id='cadastroCategorias' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                <div id="custom-tabs-one-produtos" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-produtos-tab">
+                    <h1 class="h3 m-0">Produtos</h1>
+                    <form id="produtosForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">                                
+                                <div class="col-md-6 p-2">
+                                    <input type="text" id="nomeProd" name="nomeProd" class="form-control" placeholder="Nome do produto" required>
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <select id="catProd" name="catProd" class="form-control" placeholder="Categoria do produto" required>
+                                        {% for categoria in categorias%}
+                                        <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-6 p-2">
+                                    <input type="number" id="preProd" name="preProd" class="form-control" step="0.01" placeholder="Preço" required>
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <input type="number" id="qntProd" name="qntProd" class="form-control" placeholder="Quantidade em Estoque" required>
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center p-2">                                
+                                <textarea id="desProd" name="desProd" class="form-control" rows="4" placeholder="Descrição" required></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <button id='cadastroProdutos' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

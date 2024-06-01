@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+  <h1>{{ title }}</h1>
+  {% for pedido in orders %}
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Pedido: {{ pedido.id }}</h5>
+        <p class="card-text">Cliente: {{ pedido.client }}</p>
+        {% for produto in pedido.products.all %}
+          <p class="card-text">Produto: {{ produto.nameprod }} - Price: ${{ produto.priceprod }}</p>
+        {% endfor %}
+        <p class="card-text">Data de Compra: {{ pedido.date }}</p>
+        <p class="card-text">Total: ${{ pedido.total }}</p>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+{%block title%}{{title}}{%endblock%} 
+
+{% block content %}
+<h1>{{title}}</h1>
+      <div class="row mb-3">
+        <div class="col">
+          <p>Busca por Codigo</p>
+          <input
+            type="text"
+            class="form-control"
+            id="filterCodprod"
+            placeholder="Codprod"
+          />
+        </div>
+        <div class="col">
+          <p>Busca por Nome</p>
+          <input
+            type="text"
+            class="form-control"
+            id="filterNameprod"
+            placeholder="Nameprod"
+          />
+        </div>
+        <!-- Add more input fields for other attributes if needed -->
+      </div>
+ 
+<div class="row produtos-cadastrados">
+    {% for produto in produtos%}
+   <div class="col-sm-2 mb-3 {{produto.codprod}}">
+        
+        
+        <div class="card h-100">
+            <div class="card-body">
+                <h3>{{produto.codprod}} - {{produto.nameprod}}</h3>
+                <p>{{produto.desprod}}</p>
+                <p>R$ {{produto.priceprod}}</p>
+                
+            </div>
+            
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/produtos_cadastrados/filtro_produtos.js' %}" defer></script>
+{% endblock content %}
