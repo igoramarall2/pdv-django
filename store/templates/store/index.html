@@ -1,9 +1,12 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-<div class="card">
-  <div class="card-body">
-    <h1 class="mt-4">Dashboard</h1>
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+
+    <!-- Resumo -->
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -11,11 +14,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total de Clientes</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_clientes }}</div>
+                                Total de Categorias</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categorias }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -45,23 +48,6 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Total de Categorias</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categorias }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-tags fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Total de Vendas</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_vendas }}</div>
                         </div>
@@ -76,7 +62,7 @@
 
     <!-- Gráficos -->
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 mb-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Vendas Mensais</h6>
@@ -89,58 +75,100 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-6 mb-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Distribuição de Produtos por Categoria</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Vendas por Produto</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="categoryChart"></canvas>
+                    <div class="chart-bar">
+                        <canvas id="productSalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Vendas Diárias</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="dailySalesChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  </div>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('salesChart').getContext('2d');
-    var salesChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {{ sales_months|safe }},
-            datasets: [{
-                label: 'Vendas',
-                data: {{ sales_data|safe }},
-                borderColor: 'rgba(78, 115, 223, 1)',
-                backgroundColor: 'rgba(78, 115, 223, 0.1)',
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
+    $(document).ready(function() {
+        var ctx = $('#salesChart')[0].getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ sales_months|safe }},
+                datasets: [{
+                    label: 'Vendas',
+                    data: {{ sales_totals|safe }},
+                    borderColor: 'rgba(78, 115, 223, 1)',
+                    backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
                         beginAtZero: true
                     }
-                }]
+                }
             }
-        }
-    });
+        });
 
-    var ctx2 = document.getElementById('categoryChart').getContext('2d');
-    var categoryChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: {{ category_labels|safe }},
-            datasets: [{
-                data: {{ category_data|safe }},
-                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']
-            }]
-        }
+        var ctx2 = $('#productSalesChart')[0].getContext('2d');
+        var productSalesChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: {{ product_labels|safe }},
+                datasets: [{
+                    label: 'Vendas',
+                    data: {{ product_sales_totals|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx3 = $('#dailySalesChart')[0].getContext('2d');
+        var dailySalesChart = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: {{ daily_sales_dates|safe }},
+                datasets: [{
+                    label: 'Vendas Diárias',
+                    data: {{ daily_sales_totals|safe }},
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     });
 </script>
 {% endblock %}

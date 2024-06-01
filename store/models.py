@@ -40,7 +40,7 @@ class Produto(models.Model):
     descricao = models.TextField()
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     estoque_qntd = models.IntegerField()
-    estoque_disp = models.BooleanField()    
+    estoque_disp = models.BooleanField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     
     def __str__(self):

@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from store import views, cadastros, pdv
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +32,5 @@ urlpatterns = [
     path('buscar_produtos_pdv/', views.buscar_produtos_pdv, name='buscar_produtos_pdv'),
     path('finalizar_compra/', pdv.finalizar_compra, name='finalizar_compra'),
     ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

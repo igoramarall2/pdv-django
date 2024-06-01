@@ -3,9 +3,10 @@
 <table id="produtosBuscadosTabela" class="table table-striped" style="width:100%;">    
     <thead>
     <tr>
-        <th scope="col">Nome</th>
+        <th scope="col" class="text-left">Nome</th>
+        <th id="estoqueProdutos" scope="col" class="text-left">Estoque</th>
         <th scope="col" class="text-left">Preço</th>
-        <th scope="col">Quantidade</th>
+        <th id="quantidadeProdutos" scope="col" class="text-left">Quantidade</th>
         <th scope="col">Carrinho</th>
     </tr>
     </thead>
@@ -13,6 +14,7 @@
     {% for produto in produtos %}
         <tr id='{{produto.id}}' class="produto_id">
             <td  class="text-left">{{ produto.nome }}</td>
+            <td  class="text-left">{{ produto.estoque_qntd }}</td>
             <td  class="text-left col-2">{{ produto.preco }}</td>
             <td class="col-3">
                 <input type="number" class="form-control" name="quantity" min="1" value="1" max="100" step="1">
