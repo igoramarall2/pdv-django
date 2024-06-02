@@ -12,39 +12,65 @@ class DecimalEncoder(json.JSONEncoder):
             return float(obj)
         return super(DecimalEncoder, self).default(obj)
 
+
 def index(request):
     total_produtos = Produto.objects.count()
     total_categorias = Categoria.objects.count()
     total_vendas = Vendas.objects.count()
 
     # Dados para o gráfico de vendas mensais
-    sales_data = Vendas.objects.extra(select={'month': 'strftime("%%m", data_venda)'}).values('month').annotate(total=Sum('total')).order_by('month')
-    sales_months = json.dumps([item['month'] for item in sales_data], cls=DecimalEncoder)
-    sales_totals = json.dumps([item['total'] for item in sales_data], cls=DecimalEncoder)
+    sales_data = (
+        Vendas.objects.extra(select={"month": 'strftime("%%m", data_venda)'})
+        .values("month")
+        .annotate(total=Sum("total"))
+        .order_by("month")
+    )
+    sales_months = json.dumps(
+        [item["month"] for item in sales_data], cls=DecimalEncoder
+    )
+    sales_totals = json.dumps(
+        [item["total"] for item in sales_data], cls=DecimalEncoder
+    )
 
     # Dados para o gráfico de vendas por produto
-    product_sales_data = VendaProduto.objects.values('produto__nome').annotate(total=Sum('quantidade')).order_by('produto__nome')
-    product_labels = json.dumps([item['produto__nome'] for item in product_sales_data])
-    product_sales_totals = json.dumps([item['total'] for item in product_sales_data], cls=DecimalEncoder)
+    product_sales_data = (
+        VendaProduto.objects.values("produto__nome")
+        .annotate(total=Sum("quantidade"))
+        .order_by("produto__nome")
+    )
+    product_labels = json.dumps([item["produto__nome"] for item in product_sales_data])
+    product_sales_totals = json.dumps(
+        [item["total"] for item in product_sales_data], cls=DecimalEncoder
+    )
 
     # Dados para o gráfico de vendas diárias
-    daily_sales_data = Vendas.objects.extra(select={'day': 'strftime("%%Y-%%m-%%d", data_venda)'}).values('day').annotate(total=Sum('total')).order_by('day')
-    daily_sales_dates = json.dumps([item['day'] for item in daily_sales_data], cls=DecimalEncoder)
-    daily_sales_totals = json.dumps([item['total'] for item in daily_sales_data], cls=DecimalEncoder)
+    daily_sales_data = (
+        Vendas.objects.extra(select={"day": 'strftime("%%Y-%%m-%%d", data_venda)'})
+        .values("day")
+        .annotate(total=Sum("total"))
+        .order_by("day")
+    )
+    daily_sales_dates = json.dumps(
+        [item["day"] for item in daily_sales_data], cls=DecimalEncoder
+    )
+    daily_sales_totals = json.dumps(
+        [item["total"] for item in daily_sales_data], cls=DecimalEncoder
+    )
 
     context = {
-        'total_produtos': total_produtos,
-        'total_categorias': total_categorias,
-        'total_vendas': total_vendas,
-        'sales_months': sales_months,
-        'sales_totals': sales_totals,
-        'product_labels': product_labels,
-        'product_sales_totals': product_sales_totals,
-        'daily_sales_dates': daily_sales_dates,
-        'daily_sales_totals': daily_sales_totals,
+        "total_produtos": total_produtos,
+        "total_categorias": total_categorias,
+        "total_vendas": total_vendas,
+        "sales_months": sales_months,
+        "sales_totals": sales_totals,
+        "product_labels": product_labels,
+        "product_sales_totals": product_sales_totals,
+        "daily_sales_dates": daily_sales_dates,
+        "daily_sales_totals": daily_sales_totals,
     }
 
-    return render(request, 'store/index.html', context)
+    return render(request, "store/index.html", context)
+
 
 def cadastros(request):
     categorias = Categoria.objects.all()
@@ -55,7 +81,7 @@ def cadastros(request):
 def estoque(request):
     try:
         # Validação do Método HTTP
-        if request.method != 'GET':
+        if request.method != "GET":
             return JsonResponse({"error": "Método não permitido. Use GET."}, status=405)
 
         # Recuperação de todos os produtos do estoque
@@ -85,17 +111,22 @@ def estoque(request):
     except Exception as e:
         # Log do erro (pode-se usar um logger aqui)
         print(f"Erro ao buscar estoque: {e}")
-        return JsonResponse({"error": "Ocorreu um erro ao buscar o estoque."}, status=500)
+        return JsonResponse(
+            {"error": "Ocorreu um erro ao buscar o estoque."}, status=500
+        )
 
 
 def pdv(request):
     return render(request, "store/pdv/pdv.html")
 
+
 def buscar_produtos_pdv(request):
     try:
         # Validação de entrada
-        if not request.method == 'POST':
-            return JsonResponse({"error": "Método não permitido. Use POST."}, status=405)
+        if not request.method == "POST":
+            return JsonResponse(
+                {"error": "Método não permitido. Use POST."}, status=405
+            )
 
         nome = request.POST.get("buscaProdutoNome", "").strip()
         categoria = request.POST.get("buscaProdutoCategoria", "").strip()
@@ -120,4 +151,19 @@ def buscar_produtos_pdv(request):
 
     except Exception as e:
         # Log do erro (pode-se usar um logger aqui)
-        return JsonResponse({"error": "Ocorreu um erro ao buscar os produtos."}, status=500)
+        return JsonResponse(
+            {"error": "Ocorreu um erro ao buscar os produtos."}, status=500
+        )
+
+
+def vendas(request):
+    vendas = (
+        Vendas.objects.all()
+        .prefetch_related("vendaproduto_set__produto")
+        .order_by("-data_venda")
+    )
+    vendas_total = vendas.aggregate(total=Sum("total"))["total"].quantize(
+        Decimal("0.01")
+    )
+    context = {"vendas": vendas, "vendas_total": vendas_total}
+    return render(request, "store/vendas/vendas.html", context)

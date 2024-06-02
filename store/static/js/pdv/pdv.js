@@ -5,15 +5,30 @@ $(document).ready(function () {
 
     function initializeDataTable() {
         $('#produtosBuscadosTabela').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json"
+            },
+            autoWidth: false,
+            lengthChange: false
+        });
+    }
+
+    function initializeCartTable() {
+        $('.tabelaCarrinho').DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/2.0.5/i18n/pt-BR.json',
             },
-            responsive: true
+        autoWidth: false,
         });
     }
 
     function atualizarCarrinho() {
-        $('#carrinhoTabela tbody').empty();
+        // Destruir o DataTable antes de atualizar
+        if ($.fn.DataTable.isDataTable('.tabelaCarrinho')) {
+            $('.tabelaCarrinho').DataTable().clear().destroy();
+        }
+
+        $('.tabelaCarrinho tbody').empty();
         var total = 0;
         carrinho.forEach(function (item, index) {
             var row = '<tr>' +
@@ -22,10 +37,12 @@ $(document).ready(function () {
                 '<td class="text-left">' + item.quantity + '</td>' +
                 '<td class="text-left"><button class="removerItem btn btn-danger btn-sm" data-index="' + index + '">Remover</button></td>' +
                 '</tr>';
-            $('#carrinhoTabela tbody').append(row);
+            $('.tabelaCarrinho tbody').append(row);
             total += item.price * item.quantity;
         });
         $('#totalCarrinho').text(total.toFixed(2));
+        // Inicializar o DataTable após atualizar o conteúdo
+        initializeCartTable();
     }
 
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -117,7 +134,7 @@ $(document).ready(function () {
         carrinho.forEach(function (item) {
             total += item.price * item.quantity;
         });
-    
+
         $.ajax({
             url: '/finalizar_compra/',
             type: 'POST',
@@ -128,7 +145,7 @@ $(document).ready(function () {
                 carrinho = [];
                 localStorage.removeItem('carrinho');
                 atualizarCarrinho();
-    
+
                 if (response.nota_fiscal_url) {
                     var win = window.open(response.nota_fiscal_url, '_blank');
                     win.focus();

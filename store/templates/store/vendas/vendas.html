@@ -1,0 +1,65 @@
+{% extends "store/base.html" %} {% block content %} {% load static %}
+<script src="{% static 'js/vendas/vendas.js' %}"></script>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <h1 class="m-0">
+          <i class="nav-icon fas fa-solid fa-chart-line"></i>&nbsp;Consulta de
+          Vendas
+        </h1>
+      </div>
+      <div class="col-6">
+        <h1 class="m-0 text-right">
+          <i class="fas fa-solid fa-wallet"></i>&nbsp;R$ {{vendas_total}}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  {% for venda in vendas %}
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2 class="m-0">Venda ID: {{ venda.id }}</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <strong>Data da Venda:</strong>
+          <p>{{ venda.data_venda }}</p>
+        </div>
+        <div class="col-md-4">
+          <strong>Total da Venda:</strong>
+          <p>{{ venda.total }}</p>
+        </div>
+        <div class="col-md-4">
+          <strong>Vendedor:</strong>
+          <p>{{ venda.vendedor }}</p>
+        </div>
+      </div>
+      <table class="tabelaVendas table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for venda_produto in venda.vendaproduto_set.all %}
+          <tr>
+            <td>{{ venda_produto.produto.nome }}</td>
+            <td>{{ venda_produto.quantidade }}</td>
+            <td>{{ venda_produto.subtotal }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
