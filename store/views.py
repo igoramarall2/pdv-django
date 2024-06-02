@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from .models import Cliente, Produto, Categoria, Vendas, VendaProduto
+from django.shortcuts import render, redirect
+from .models import Cliente, Fornecedor, Produto, Categoria, Vendas, VendaProduto, MateriaPrima
 from django.db.models import Count, Sum, Q
 from django.http import JsonResponse
 from django.utils import timezone
 import json
 from datetime import datetime, timedelta
 from decimal import Decimal
+from .forms import FornecedorForm
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -137,7 +138,8 @@ def index(request):
 
 def cadastros(request):
     categorias = Categoria.objects.all()
-    context = {"categorias": categorias}
+    fornecedores = Fornecedor.objects.all()
+    context = {"categorias": categorias, "fornecedores": fornecedores}
     return render(request, "store/cadastros/cadastros.html", context)
 
 
@@ -230,3 +232,20 @@ def vendas(request):
     )
     context = {"vendas": vendas, "vendas_total": vendas_total}
     return render(request, "store/vendas/vendas.html", context)
+
+# Novas views
+def fornecedores(request):
+    fornecedores = Fornecedor.objects.all()
+    context = {"fornecedores": fornecedores}
+    return render(request, 'store/fornecedores/fornecedores.html',context)
+
+def materias_primas(request):
+    materias_primas = MateriaPrima.objects.all()
+    context = {"materias_primas": materias_primas}
+    return render(request, 'store/materias_primas/materias_primas.html', context)
+
+def despesas(request):
+    return render(request, 'store/despesas/despesas.html')
+
+def investimentos(request):
+    return render(request, 'store/investimentos/investimentos.html')

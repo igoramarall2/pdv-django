@@ -1,0 +1,44 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<script src="{% static 'js/fornecedores/fornecedores.js' %}"></script>
+<div class="card">
+    <div class="card-body">
+        <h1 class="m-0">
+            <i class="nav-icon fas fa-truck"></i>&nbsp;Fornecedores
+        </h1>
+            
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row mt-3">
+            <div class="col-12">
+                <table id="tabelaFornecedores" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Endereço</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fornecedor in fornecedores %}
+                        <tr>
+                            <td>{{ fornecedor.nome }}</td>
+                            <td>{{ fornecedor.telefone }}</td>
+                            <td>{{ fornecedor.email }}</td>
+                            <td>{{ fornecedor.endereco }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+</div>
+
+{% endblock %}

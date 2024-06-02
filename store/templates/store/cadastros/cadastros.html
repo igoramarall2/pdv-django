@@ -2,118 +2,303 @@
 {% block content %}
 {% load static %}
 
+<!-- Carrega o script específico para cadastros -->
 <script src="{% static 'js/cadastros/cadastros.js' %}"></script>
+
+<!-- Cartão de Cabeçalho Principal -->
 <div class="card">
     <div class="card-body">
         <h1 class="h1 m-0"><i class="nav-icon fas fa-solid fa-barcode"></i>&nbsp;Cadastros</h1>
     </div>
 </div>
+
+<!-- Cartão de Navegação com Abas -->
 <div class="card text-center">
     <div class="card-header">
         <ul id="custom-tabs-one-tab" class="nav nav-pills">
+            <!-- Aba de Cliente -->
             <li class="nav-item mr-4">
                 <a id="custom-tabs-one-cliente-tab" class="nav-link active" data-toggle="pill" href="#custom-tabs-one-cliente">Cliente</a>
             </li>
+            <!-- Aba de Categorias -->
             <li class="nav-item mr-4">
                 <a id="custom-tabs-one-categorias-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-categorias">Categorias</a>
             </li>
+            <!-- Aba de Produtos -->
             <li class="nav-item mr-4">
                 <a id="custom-tabs-one-produtos-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-produtos">Produtos</a>
             </li>
-
+            <!-- Aba de Fornecedores -->
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-fornecedores-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-fornecedores">Fornecedores</a>
+            </li>
+            <!-- Aba de Matérias-Primas -->
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-materias-primas-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-materias-primas">Matérias-Primas</a>
+            </li>
+            <!-- Aba de Despesas -->
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-despesas-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-despesas">Despesas</a>
+            </li>
+            <!-- Aba de Investimentos -->
+            <li class="nav-item mr-4">
+                <a id="custom-tabs-one-investimentos-tab" class="nav-link" data-toggle="pill" href="#custom-tabs-one-investimentos">Investimentos</a>
+            </li>
         </ul>
+        
+        <!-- Conteúdo das Abas -->
         <div class="card-body">
-            
             <div id="custom-tabs-one-tabContent" class="tab-content">
+                <!-- Conteúdo da Aba de Clientes -->
                 <div id="custom-tabs-one-cliente" class="tab-pane fade active show" role="tabpanel" aria-labelledby="custom-tabs-one-cliente-tab">
                     <form id="clienteForm" action="" class="form-group">
                         {% csrf_token %}
                         <div class="container col-12">
                             <div class="row justify-content-md-center">
+                                <!-- Campo Nome do Cliente -->
                                 <div class="col-md-6 p-2">
                                     <input name='nomeCli' type="text" class="form-control p-3" placeholder="Nome do Cliente">
                                 </div>
-                                
+                                <!-- Campo CPF -->
                                 <div class="col-md-6 p-2">
                                     <input name='cpfCli' type="text" class="form-control p-3" placeholder="CPF">
                                 </div>
                             </div>
-                            <div class="row justify-content-md-center">                                
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Telefone -->
                                 <div class="col-md-6 p-2">
                                     <input name='telefoneCli' type="text" class="form-control p-3" placeholder="Telefone">
                                 </div>
+                                <!-- Campo Endereço -->
                                 <div class="col-md-6 p-2">
                                     <input name='enderecoCli' type="text" class="form-control p-3" placeholder="Endereço">
                                 </div>
-                            </div>                            
-                            <div class="row justify-content-md-center">                                 
-                                <div class="col-md-6 p-2">                                    
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Cidade -->
+                                <div class="col-md-6 p-2">
                                     <input name='cidadeCli' type="text" class="form-control p-3" placeholder="Cidade">
                                 </div>
-
+                                <!-- Campo Estado -->
                                 <div class="col-md-6 p-2">
                                     <input name='estadoCli' type="text" class="form-control p-3" placeholder="Estado">
                                 </div>
                             </div>
-                            <div class="row justify-content-md-center">                                
+                            <div class="row justify-content-md-center">
+                                <!-- Campo CEP -->
                                 <div class="col-md-6 p-2">
                                     <input name='cepCli' type="text" class="form-control p-3" placeholder="CEP">
                                 </div>
+                                <!-- Campo E-mail -->
                                 <div class="col-md-6 p-2">
                                     <input name='emailCli' type="text" class="form-control p-3" placeholder="E-mail">
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <!-- Botão de Cadastro de Clientes -->
                     <button id='cadastroClientes' class="btn btn-primary" type='button'>Cadastrar</button>
                 </div>
+                
+                <!-- Conteúdo da Aba de Categorias -->
                 <div id="custom-tabs-one-categorias" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-categorias-tab">
                     <form id="categoriaForm" action="" class="form-group">
                         {% csrf_token %}
                         <div class="container col-12">
                             <div class="row justify-content-md-center">
+                                <!-- Campo Nome da Categoria -->
                                 <div class="col-md-6 p-2">
                                     <input id="nomeCat" name='nomeCat' type="text" class="form-control" placeholder="Categoria">
                                 </div>
+                                <!-- Campo Descrição -->
                                 <div class="col-md-6 p-2">
-                                    <input id="desCat" name='desCat' type="text" class="form-control" placeholder="Descricao">
+                                    <input id="desCat" name='desCat' type="text" class="form-control" placeholder="Descrição">
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <!-- Botão de Cadastro de Categorias -->
                     <button id='cadastroCategorias' class="btn btn-primary" type='button'>Cadastrar</button>
                 </div>
+                
+                <!-- Conteúdo da Aba de Produtos -->
                 <div id="custom-tabs-one-produtos" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-produtos-tab">
                     <h1 class="h3 m-0">Produtos</h1>
                     <form id="produtosForm" action="" class="form-group">
                         {% csrf_token %}
                         <div class="container col-12">
-                            <div class="row justify-content-md-center">                                
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Nome do Produto -->
                                 <div class="col-md-6 p-2">
                                     <input type="text" id="nomeProd" name="nomeProd" class="form-control" placeholder="Nome do produto" required>
                                 </div>
+                                <!-- Campo Categoria do Produto -->
                                 <div class="col-md-6 p-2">
                                     <select id="catProd" name="catProd" class="form-control" placeholder="Categoria do produto" required>
-                                        {% for categoria in categorias%}
-                                        <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                                        {% for categoria in categorias %}
+                                        <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="row justify-content-md-center">
+                                <!-- Campo Preço -->
                                 <div class="col-md-6 p-2">
                                     <input type="number" id="preProd" name="preProd" class="form-control" step="0.01" placeholder="Preço" required>
                                 </div>
+                                <!-- Campo Quantidade em Estoque -->
                                 <div class="col-md-6 p-2">
                                     <input type="number" id="qntProd" name="qntProd" class="form-control" placeholder="Quantidade em Estoque" required>
                                 </div>
                             </div>
-                            <div class="row justify-content-md-center p-2">                                
+                            <div class="row justify-content-md-center p-2">
+                                <!-- Campo Descrição -->
                                 <textarea id="desProd" name="desProd" class="form-control" rows="4" placeholder="Descrição" required></textarea>
                             </div>
                         </div>
                     </form>
+                    <!-- Botão de Cadastro de Produtos -->
                     <button id='cadastroProdutos' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                
+                <!-- Conteúdo da Aba de Fornecedores -->
+                <div id="custom-tabs-one-fornecedores" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-fornecedores-tab">
+                    <form id="fornecedorForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Nome do Fornecedor -->
+                                <div class="col-md-6 p-2">
+                                    <input name='nomeFor' type="text" class="form-control" placeholder="Nome do Fornecedor">
+                                </div>
+                                <!-- Campo Contato -->
+                                <div class="col-md-6 p-2">
+                                    <input name='contatoFor' type="text" class="form-control" placeholder="Contato">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Telefone -->
+                                <div class="col-md-6 p-2">
+                                    <input name='telefoneFor' type="text" class="form-control" placeholder="Telefone">
+                                </div>
+                                <!-- Campo E-mail -->
+                                <div class="col-md-6 p-2">
+                                    <input name='emailFor' type="text" class="form-control" placeholder="E-mail">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Endereço -->
+                                <div class="col-md-6 p-2">
+                                    <input name='enderecoFor' type="text" class="form-control" placeholder="Endereço">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Botão de Cadastro de Fornecedores -->
+                    <button id='cadastroFornecedores' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                
+                <!-- Conteúdo da Aba de Matérias-Primas -->
+                <div id="custom-tabs-one-materias-primas" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-materias-primas-tab">
+                    <form id="materiaPrimaForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Nome da Matéria-Prima -->
+                                <div class="col-md-6 p-2">
+                                    <input name='nomeMat' type="text" class="form-control" placeholder="Nome da Matéria-Prima">
+                                </div>
+                                <!-- Campo Descrição -->
+                                <div class="col-md-6 p-2">
+                                    <input name='descricaoMat' type="text" class="form-control" placeholder="Descrição">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Fornecedor -->
+                                <div class="col-md-6 p-2">
+                                    <select id="fornecedorMat" name="fornecedorMat" class="form-control" placeholder="Fornecedor" required>
+                                        {% for fornecedor in fornecedores %}
+                                        <option value="{{ fornecedor.id }}">{{ fornecedor.nome }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!-- Campo Preço Unitário -->
+                                <div class="col-md-6 p-2">
+                                    <input type="number" id="precoUnitarioMat" name="precoUnitarioMat" class="form-control" step="0.01" placeholder="Preço Unitário" required>
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Quantidade em Estoque -->
+                                <div class="col-md-6 p-2">
+                                    <input type="number" id="quantidadeEstoqueMat" name="quantidadeEstoqueMat" class="form-control" placeholder="Quantidade em Estoque" required>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Botão de Cadastro de Matérias-Primas -->
+                    <button id='cadastroMateriasPrimas' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                
+                <!-- Conteúdo da Aba de Despesas -->
+                <div id="custom-tabs-one-despesas" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-despesas-tab">
+                    <form id="despesaForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Data -->
+                                <div class="col-md-6 p-2">
+                                    <input name='dataDesp' type="date" class="form-control" placeholder="Data">
+                                </div>
+                                <!-- Campo Categoria -->
+                                <div class="col-md-6 p-2">
+                                    <input name='categoriaDesp' type="text" class="form-control" placeholder="Categoria">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Descrição -->
+                                <div class="col-md-6 p-2">
+                                    <input name='descricaoDesp' type="text" class="form-control" placeholder="Descrição">
+                                </div>
+                                <!-- Campo Valor -->
+                                <div class="col-md-6 p-2">
+                                    <input name='valorDesp' type="number" class="form-control" step="0.01" placeholder="Valor">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Botão de Cadastro de Despesas -->
+                    <button id='cadastroDespesas' class="btn btn-primary" type='button'>Cadastrar</button>
+                </div>
+                
+                <!-- Conteúdo da Aba de Investimentos -->
+                <div id="custom-tabs-one-investimentos" class="tab-pane fade" role="tabpanel" aria-labelledby="custom-tabs-one-investimentos-tab">
+                    <form id="investimentoForm" action="" class="form-group">
+                        {% csrf_token %}
+                        <div class="container col-12">
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Data -->
+                                <div class="col-md-6 p-2">
+                                    <input name='dataInv' type="date" class="form-control" placeholder="Data">
+                                </div>
+                                <!-- Campo Tipo -->
+                                <div class="col-md-6 p-2">
+                                    <input name='tipoInv' type="text" class="form-control" placeholder="Tipo">
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <!-- Campo Descrição -->
+                                <div class="col-md-6 p-2">
+                                    <input name='descricaoInv' type="text" class="form-control" placeholder="Descrição">
+                                </div>
+                                <!-- Campo Valor -->
+                                <div class="col-md-6 p-2">
+                                    <input name='valorInv' type="number" class="form-control" step="0.01" placeholder="Valor">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Botão de Cadastro de Investimentos -->
+                    <button id='cadastroInvestimentos' class="btn btn-primary" type='button'>Cadastrar</button>
                 </div>
             </div>
         </div>

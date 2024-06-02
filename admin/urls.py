@@ -28,10 +28,17 @@ urlpatterns = [
     path('cadastros_clientes/', cadastros.cadastros_clientes, name='cadastros_clientes'),
     path('cadastro_categorias/', cadastros.cadastro_categorias, name='cadastro_categorias'),
     path('cadastro_produtos/', cadastros.cadastro_produtos, name='cadastro_produtos'),
+    path('cadastro_fornecedores/', cadastros.cadastro_fornecedores, name='cadastro_fornecedores'),
+    path('cadastro_materias_primas/', cadastros.cadastro_materia_prima, name='cadastro_materias_primas'),
     path('estoque/', views.estoque, name='estoque'),
     path('pdv/', views.pdv, name='pdv'),
     path('buscar_produtos_pdv/', views.buscar_produtos_pdv, name='buscar_produtos_pdv'),
     path('finalizar_compra/', pdv.finalizar_compra, name='finalizar_compra'),
+    # Novas rotas
+    path('fornecedores/', views.fornecedores, name='fornecedores'),
+    path('materias_primas/', views.materias_primas, name='materias_primas'),
+    path('despesas/', views.despesas, name='despesas'),
+    path('investimentos/', views.investimentos, name='investimentos'),
     ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

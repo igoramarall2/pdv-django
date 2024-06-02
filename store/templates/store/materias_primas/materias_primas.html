@@ -1,0 +1,44 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<script src="{% static 'js/materias_primas/materias_primas.js' %}"></script>
+<div class="card">
+    <div class="card-body">
+        <h1 class="m-0">
+            <i class="nav-icon fas fa-box"></i>&nbsp;Matérias-primas
+        </h1>
+             
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row mt-3">
+            <div class="col-12">
+                <table id="tabelaMateriasPrimas" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Unidade de Medida</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for materia_prima in materias_primas %}
+                        <tr>
+                            <td>{{ materia_prima.nome }}</td>
+                            <td>{{ materia_prima.quantidade_estoque }}</td>
+                            <td>{{ materia_prima.unidade_medida }}</td>
+                            <td>{{ materia_prima.preco_unitario }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+</div>
+    
+{% endblock %}
