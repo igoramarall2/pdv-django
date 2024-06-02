@@ -1,27 +1,29 @@
-{% load static  %}
+{% load static %}
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4 position-fixed ">
+<aside class="main-sidebar sidebar-dark-primary elevation-4 position-fixed">
   <!-- Brand Logo -->
   <a href="/" class="brand-link">
-    <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-         style="opacity: .8">
-    <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <span class="brand-text font-weight-light">Loja</span>
   </a>
 
   {% if request.user.is_authenticated %}
   <!-- Sidebar -->
-  <div class="sidebar"style="height: auto;">
+  <div class="sidebar" style="height: auto">
     <!-- Sidebar user panel (optional) -->
-      <div class="info mt-2 mb-2">
-        <h1 class="display-6 text-light">Bem vindo, {{user.get_username}}</h1>
-      </div>
+    <div class="info mt-2 mb-2">
+      <h1 class="display-6 text-light">Bem vindo, {{user.get_username}}</h1>
     </div>
+  </div>
 
-<!-- Sidebar Menu -->
+  <!-- Sidebar Menu -->
   <div class="sidebar">
     <!-- Sidebar Menu -->
     <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+      >
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
@@ -61,45 +63,5 @@
         </li>
       </ul>
     </nav>
-    <!--           <a href="{% url 'clients' %}" class="nav-link active"> -->
-    <!--             <i class="nav-icon fas fa-users"></i> -->
-    <!--             <p>Cadastro de Clientes</p> -->
-    <!--           </a> -->
-    <!--         </li> -->
-    <!--         <li class="nav-item"> -->
-    <!--           <a href="{% url 'orders' %}" class="nav-link active"> -->
-    <!--             <i class="nav-icon fas fa-clipboard"></i> -->
-    <!--             <p>Cadastro de Pedidos</p> -->
-    <!--           </a> -->
-    <!--         </li> -->
-    <!--       </ul> -->
-    <!--     </li> -->
-    <!---->
-    <!--     <li class="nav-item"> -->
-    <!--       <a href="{% url 'produtos_cadastrados' %}" class="nav-link active"> -->
-    <!--         <i class="nav-icon fas fa-search"></i> -->
-    <!--         <p>Consulta de Produtos</p> -->
-    <!--       </a> -->
-    <!--     </li>  -->
-    <!---->
-    <!--     <li class="nav-item"> -->
-    <!--       <a href="{% url 'consultar_pedidos' %}" class="nav-link active"> -->
-    <!--         <i class="nav-icon fas fa-search"></i> -->
-    <!--         <p>Consulta de Pedidos</p> -->
-    <!--       </a> -->
-    <!--     </li> -->
-    <!--   </ul> -->
-    <!-- {% endif %} -->
-    <!-- </nav> -->
   </div>
-  <!-- /.sidebar -->
 </aside>
-
-              {% comment %} <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link active" href="{% url 'nova_categoria' %}">Cadastro de Categoria</a>
-                <a class="nav-link active" href="{% url 'novos_items' %}">Cadastro de Items</a>
-                <a class="nav-link active" href="{% url 'clients' %}">Cadastro de Clientes</a>
-                <a class="nav-link active" href="{% url 'orders' %}">Cadastro de Pedidos</a>
-                <a class="nav-link active" href="{% url 'consultar_pedidos' %}">Consulta de Pedidos</a>
-              </li> {% endcomment %}
