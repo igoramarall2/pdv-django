@@ -2,14 +2,41 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    </div>
+    <form method="get" id="filter-form">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="h3 mb-0 text-gray-800">Visão Geral da Loja</h1>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if periodo %}{{ periodo }}{% else %}Hoje{% endif %}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('Hoje')">Hoje</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('7 dias')">7 dias</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('15 dias')">15 dias</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('30 dias')">30 dias</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('90 dias')">90 dias</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('180 dias')">180 dias</a>
+                                <a class="dropdown-item" href="#" onclick="updatePeriod('365 dias')">365 dias</a>
+                            </div>
+                        </div>
+                        <input type="hidden" name="periodo" id="periodo-input" value="{% if periodo %}{{ periodo }}{% else %}Hoje{% endif %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 
     <!-- Resumo -->
     <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-primary h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
@@ -25,8 +52,8 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-success h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
@@ -42,8 +69,8 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-info h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
@@ -58,12 +85,95 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-info h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Estoque Total</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_stock }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-primary h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Despesas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-primary h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Valor em Caixa</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-primary h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Melhor Semana de Vendas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 mb-4">
+            <div class="card border-left-primary h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Pior Semana de Vendas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Gráficos -->
     <div class="row">
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow mb-4">
+        <div class="col-lg-6">
+            <div class="card mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Vendas Mensais</h6>
                 </div>
@@ -75,8 +185,8 @@
             </div>
         </div>
 
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow mb-4">
+        <div class="col-lg-6">
+            <div class="card mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Vendas por Produto</h6>
                 </div>
@@ -88,8 +198,8 @@
             </div>
         </div>
 
-        <div class="col-lg-12 mb-4">
-            <div class="card shadow mb-4">
+        <div class="col-lg-6">
+            <div class="card mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Vendas Diárias</h6>
                 </div>
@@ -100,22 +210,48 @@
                 </div>
             </div>
         </div>
+        <!-- Vendas por categorias-->
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Vendas por Categoria</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="categorySalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Estoque por categorias -->
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Estoque por Categoria</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var ctx = $('#salesChart')[0].getContext('2d');
         var salesChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: {{ sales_months|safe }},
                 datasets: [{
-                    label: 'Vendas',
+                    label: 'Vendas Mensais',
                     data: {{ sales_totals|safe }},
-                    borderColor: 'rgba(78, 115, 223, 1)',
-                    backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 }]
             },
             options: {
@@ -169,6 +305,61 @@
                 }
             }
         });
+
+        var ctx4 = $('#categorySalesChart')[0].getContext('2d');
+        var categorySalesChart = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: {{ category_labels|safe }},
+                datasets: [{
+                    label: 'Vendas',
+                    data: {{ category_sales_totals|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx5 = $('#stockChart')[0].getContext('2d');
+        var stockChart = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: {{ stock_labels|safe }},
+                datasets: [{
+                    label: 'Estoque',
+                    data: {{ stock_totals|safe }},
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        // dropdown
+        $('.dropdown-menu a').click(function () {
+            var period = $(this).text();
+            $('#dropdownMenuButton').text(period);
+        });
     });
+</script>
+<script>
+    function updatePeriod(period) {
+        document.getElementById('periodo-input').value = period;
+        document.getElementById('filter-form').submit();
+    }
 </script>
 {% endblock %}

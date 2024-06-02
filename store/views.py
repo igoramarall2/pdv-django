@@ -2,7 +2,9 @@ from django.shortcuts import render
 from .models import Cliente, Produto, Categoria, Vendas, VendaProduto
 from django.db.models import Count, Sum, Q
 from django.http import JsonResponse
+from django.utils import timezone
 import json
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 
@@ -17,10 +19,32 @@ def index(request):
     total_produtos = Produto.objects.count()
     total_categorias = Categoria.objects.count()
     total_vendas = Vendas.objects.count()
+    periodo = request.GET.get("periodo", "Hoje")
+    agora = timezone.now()  # Usar timezone.now() em vez de datetime.now()
 
-    # Dados para o gráfico de vendas mensais
+    if periodo == "Hoje":
+        inicio_periodo = agora - timedelta(days=1)
+    elif periodo == "7 dias":
+        inicio_periodo = agora - timedelta(days=7)
+    elif periodo == "15 dias":
+        inicio_periodo = agora - timedelta(days=15)
+    elif periodo == "30 dias":
+        inicio_periodo = agora - timedelta(days=30)
+    elif periodo == "90 dias":
+        inicio_periodo = agora - timedelta(days=90)
+    elif periodo == "180 dias":
+        inicio_periodo = agora - timedelta(days=180)
+    elif periodo == "365 dias":
+        inicio_periodo = agora - timedelta(days=365)
+    else:
+        inicio_periodo = agora - timedelta(days=1)  # Default to Hoje
+
+    # Filtrar vendas pelo período selecionado
+    vendas_filtradas = Vendas.objects.filter(data_venda__gte=inicio_periodo)
+
+    # Atualize os dados para os gráficos com base nas vendas filtradas
     sales_data = (
-        Vendas.objects.extra(select={"month": 'strftime("%%m", data_venda)'})
+        vendas_filtradas.extra(select={"month": 'strftime("%%m", data_venda)'})
         .values("month")
         .annotate(total=Sum("total"))
         .order_by("month")
@@ -34,18 +58,21 @@ def index(request):
 
     # Dados para o gráfico de vendas por produto
     product_sales_data = (
-        VendaProduto.objects.values("produto__nome")
+        VendaProduto.objects.filter(venda__in=vendas_filtradas)
+        .values("produto__nome")
         .annotate(total=Sum("quantidade"))
         .order_by("produto__nome")
     )
-    product_labels = json.dumps([item["produto__nome"] for item in product_sales_data])
+    product_labels = json.dumps(
+        [f"{item['produto__nome'][:12]}..." for item in product_sales_data]
+    )
     product_sales_totals = json.dumps(
         [item["total"] for item in product_sales_data], cls=DecimalEncoder
     )
 
     # Dados para o gráfico de vendas diárias
     daily_sales_data = (
-        Vendas.objects.extra(select={"day": 'strftime("%%Y-%%m-%%d", data_venda)'})
+        vendas_filtradas.extra(select={"day": 'strftime("%%Y-%%m-%%d", data_venda)'})
         .values("day")
         .annotate(total=Sum("total"))
         .order_by("day")
@@ -57,6 +84,36 @@ def index(request):
         [item["total"] for item in daily_sales_data], cls=DecimalEncoder
     )
 
+    # Dados para o gráfico de vendas por categoria
+    category_sales_data = (
+        VendaProduto.objects.filter(venda__in=vendas_filtradas)
+        .values("produto__categoria__nome")
+        .annotate(total=Sum("quantidade"))
+        .order_by("produto__categoria__nome")
+    )
+    category_labels = json.dumps(
+        [item["produto__categoria__nome"] for item in category_sales_data]
+    )
+    category_sales_totals = json.dumps(
+        [item["total"] for item in category_sales_data], cls=DecimalEncoder
+    )
+
+    # Dados para a soma total da quantidade de produtos em estoque por categoria
+    stock_data = (
+        Produto.objects.values("categoria__nome")
+        .annotate(total_stock=Sum("estoque_qntd"))
+        .order_by("categoria__nome")
+    )
+    stock_labels = json.dumps([item["categoria__nome"] for item in stock_data])
+    stock_totals = json.dumps(
+        [item["total_stock"] for item in stock_data], cls=DecimalEncoder
+    )
+
+    # Estoque total
+    total_stock = Produto.objects.aggregate(total_stock=Sum("estoque_qntd"))[
+        "total_stock"
+    ]
+
     context = {
         "total_produtos": total_produtos,
         "total_categorias": total_categorias,
@@ -67,6 +124,12 @@ def index(request):
         "product_sales_totals": product_sales_totals,
         "daily_sales_dates": daily_sales_dates,
         "daily_sales_totals": daily_sales_totals,
+        "category_labels": category_labels,
+        "category_sales_totals": category_sales_totals,
+        "stock_labels": stock_labels,
+        "stock_totals": stock_totals,
+        "total_stock": total_stock,
+        "periodo": periodo,
     }
 
     return render(request, "store/index.html", context)
