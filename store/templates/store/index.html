@@ -32,7 +32,6 @@
         </div>
     </form>
 
-
     <!-- Resumo -->
     <div class="row">
         <div class="col-xl-3 mb-4">
@@ -102,6 +101,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Novos cartões -->
     <div class="row">
         <div class="col-xl-3 mb-4">
             <div class="card border-left-primary h-100 py-2">
@@ -109,8 +110,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Despesas</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                Despesas / Investimentos</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$ {{ total_despesas }} / R${{investimentos}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-tags fa-2x text-gray-300"></i>
@@ -126,10 +127,10 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Valor em Caixa</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$ {{ valor_caixa }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                            <i class="fas fa-cash-register fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -142,10 +143,10 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Melhor Semana de Vendas</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ melhor_semana.semana }} - R$ {{ melhor_semana.total }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                            <i class="fas fa-trophy fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -158,16 +159,15 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Pior Semana de Vendas</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pior_semana.semana }} - R$ {{ pior_semana.total }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-tags fa-2x text-gray-300"></i>
+                            <i class="fas fa-sad-tear fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Gráficos -->

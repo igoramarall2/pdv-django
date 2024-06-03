@@ -7,14 +7,19 @@ from .models import (
     Vendas,
     VendaProduto,
     MateriaPrima,
+    Despesa,
+    Investimento,
 )
-from django.db.models import Count, Sum, Q
+from django.db.models import Count, Sum, Q, Min, Max, F, ExpressionWrapper, DateField
+from django.db.models.functions import TruncWeek
 from django.http import JsonResponse
 from django.utils import timezone
 import json
 from datetime import timedelta
 from decimal import Decimal
 from .forms import FornecedorForm
+from babel.dates import format_date
+from babel.numbers import format_decimal
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -102,6 +107,53 @@ def get_stock_data():
     )
 
 
+def formatar_data(data, locale="pt_BR"):
+    """Formata a data para o formato desejado em português."""
+    return format_date(data, format="d/M", locale=locale)
+
+
+def formatar_valor(valor, locale="pt_BR"):
+    """Formata o valor para o formato monetário desejado em português."""
+    return format_decimal(valor, locale=locale)
+
+
+def get_best_and_worst_week_sales():
+    """Retorna as melhores e piores semanas de vendas."""
+    vendas = (
+        Vendas.objects.annotate(semana=TruncWeek("data_venda"))
+        .values("semana")
+        .annotate(total=Sum("total"))
+        .order_by("-total")
+    )
+
+    melhor_semana = vendas.first()
+    pior_semana = vendas.last()
+
+    # Formatar data e valores
+    if melhor_semana:
+        melhor_semana["semana"] = formatar_data(melhor_semana["semana"])
+        melhor_semana["total"] = formatar_valor(melhor_semana["total"])
+    if pior_semana:
+        pior_semana["semana"] = formatar_data(pior_semana["semana"])
+        pior_semana["total"] = formatar_valor(pior_semana["total"])
+
+    return melhor_semana, pior_semana
+
+
+def get_cash_balance():
+    """Retorna o saldo de caixa."""
+    total_vendas = Vendas.objects.aggregate(total=Sum("total"))["total"] or Decimal(0)
+    total_despesas = Despesa.objects.aggregate(total=Sum("valor"))["total"] or Decimal(
+        0
+    )
+    total_investimentos = Investimento.objects.aggregate(total=Sum("valor"))[
+        "total"
+    ] or Decimal(0)
+
+    valor_caixa = total_vendas - total_despesas - total_investimentos
+    return formatar_valor(valor_caixa)
+
+
 def index(request):
     """View principal do painel, exibe dados consolidados."""
     total_produtos = Produto.objects.count()
@@ -123,6 +175,22 @@ def index(request):
         "total_stock"
     ]
 
+    # Calcular despesas totais
+    total_despesas = formatar_valor(
+        Despesa.objects.aggregate(total=Sum("valor"))["total"].quantize(Decimal("0.01")) or Decimal(0)
+    )
+    # Calcular investimentos totais
+    total_investimentos = formatar_valor(
+        Investimento.objects.aggregate(total=Sum("valor"))["total"].quantize(Decimal("0.01")) or Decimal(0)
+    )
+
+
+    # Calcular valor em caixa
+    valor_caixa = get_cash_balance()
+
+    # Calcular a melhor e a pior semana de vendas
+    melhor_semana, pior_semana = get_best_and_worst_week_sales()
+
     context = {
         "total_produtos": total_produtos,
         "total_categorias": total_categorias,
@@ -131,6 +199,7 @@ def index(request):
         "sales_totals": sales_totals,
         "product_labels": product_labels,
         "product_sales_totals": product_sales_totals,
+        "investimentos" : total_investimentos,
         "daily_sales_dates": daily_sales_dates,
         "daily_sales_totals": daily_sales_totals,
         "category_labels": category_labels,
@@ -138,6 +207,10 @@ def index(request):
         "stock_labels": stock_labels,
         "stock_totals": stock_totals,
         "total_stock": total_stock,
+        "total_despesas": total_despesas,
+        "valor_caixa": valor_caixa,
+        "melhor_semana": melhor_semana,
+        "pior_semana": pior_semana,
         "periodo": periodo,
     }
 
