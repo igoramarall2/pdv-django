@@ -177,13 +177,16 @@ def index(request):
 
     # Calcular despesas totais
     total_despesas = formatar_valor(
-        Despesa.objects.aggregate(total=Sum("valor"))["total"].quantize(Decimal("0.01")) or Decimal(0)
+        Despesa.objects.aggregate(total=Sum("valor"))["total"].quantize(Decimal("0.01"))
+        or Decimal(0)
     )
     # Calcular investimentos totais
     total_investimentos = formatar_valor(
-        Investimento.objects.aggregate(total=Sum("valor"))["total"].quantize(Decimal("0.01")) or Decimal(0)
+        Investimento.objects.aggregate(total=Sum("valor"))["total"].quantize(
+            Decimal("0.01")
+        )
+        or Decimal(0)
     )
-
 
     # Calcular valor em caixa
     valor_caixa = get_cash_balance()
@@ -199,7 +202,7 @@ def index(request):
         "sales_totals": sales_totals,
         "product_labels": product_labels,
         "product_sales_totals": product_sales_totals,
-        "investimentos" : total_investimentos,
+        "investimentos": total_investimentos,
         "daily_sales_dates": daily_sales_dates,
         "daily_sales_totals": daily_sales_totals,
         "category_labels": category_labels,
@@ -324,9 +327,13 @@ def materias_primas(request):
 
 def despesas(request):
     """View para exibir as despesas."""
-    return render(request, "store/despesas/despesas.html")
+    despesas = Despesa.objects.all()
+    context = {"despesas": despesas}
+    return render(request, "store/despesas/despesas.html", context)
 
 
 def investimentos(request):
     """View para exibir os investimentos."""
-    return render(request, "store/investimentos/investimentos.html")
+    investimentos = Investimento.objects.all()
+    context = {"investimentos": investimentos}
+    return render(request, "store/investimentos/investimentos.html", context)
